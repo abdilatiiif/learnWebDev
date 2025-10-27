@@ -69,6 +69,12 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    hero: Hero;
+    courses: Course;
+    enroll: Enroll;
+    comments: Comment;
+    likes: Like;
+    'courses-reviews': CoursesReview;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,6 +83,12 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    hero: HeroSelect<false> | HeroSelect<true>;
+    courses: CoursesSelect<false> | CoursesSelect<true>;
+    enroll: EnrollSelect<false> | EnrollSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
+    likes: LikesSelect<false> | LikesSelect<true>;
+    'courses-reviews': CoursesReviewsSelect<false> | CoursesReviewsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -119,6 +131,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  name: string;
+  role: 'user' | 'admin';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -158,6 +172,125 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero".
+ */
+export interface Hero {
+  id: number;
+  title: string;
+  subtitle?: string | null;
+  backgroundImage: number | Media;
+  ctaText?: string | null;
+  ctaLink?: string | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses".
+ */
+export interface Course {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  maxSpots: number;
+  availableSpots?: number | null;
+  duration: string;
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  highlights?:
+    | {
+        highlight?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  images?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  included?:
+    | {
+        item?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  schedule?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  isActive?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enroll".
+ */
+export interface Enroll {
+  id: number;
+  user: number | User;
+  course: number | Course;
+  spots: number;
+  totalPrice: number;
+  status?: ('pending' | 'confirmed' | 'cancelled' | 'completed') | null;
+  enrollDate: string;
+  specialRequests?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments".
+ */
+export interface Comment {
+  id: number;
+  content: string;
+  author: number | User;
+  courses: number | Course;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "likes".
+ */
+export interface Like {
+  id: number;
+  user: number | User;
+  courseReview: number | CoursesReview;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses-reviews".
+ */
+export interface CoursesReview {
+  id: number;
+  rating: number;
+  comment: string;
+  author: number | User;
+  course: number | Course;
+  isFeatured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -170,6 +303,30 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'hero';
+        value: number | Hero;
+      } | null)
+    | ({
+        relationTo: 'courses';
+        value: number | Course;
+      } | null)
+    | ({
+        relationTo: 'enroll';
+        value: number | Enroll;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
+      } | null)
+    | ({
+        relationTo: 'likes';
+        value: number | Like;
+      } | null)
+    | ({
+        relationTo: 'courses-reviews';
+        value: number | CoursesReview;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -218,6 +375,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -252,6 +411,105 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hero_select".
+ */
+export interface HeroSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  backgroundImage?: T;
+  ctaText?: T;
+  ctaLink?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses_select".
+ */
+export interface CoursesSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  location?: T;
+  price?: T;
+  maxSpots?: T;
+  availableSpots?: T;
+  duration?: T;
+  difficulty?: T;
+  highlights?:
+    | T
+    | {
+        highlight?: T;
+        id?: T;
+      };
+  images?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  included?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  schedule?: T;
+  isActive?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "enroll_select".
+ */
+export interface EnrollSelect<T extends boolean = true> {
+  user?: T;
+  course?: T;
+  spots?: T;
+  totalPrice?: T;
+  status?: T;
+  enrollDate?: T;
+  specialRequests?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  content?: T;
+  author?: T;
+  courses?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "likes_select".
+ */
+export interface LikesSelect<T extends boolean = true> {
+  user?: T;
+  courseReview?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "courses-reviews_select".
+ */
+export interface CoursesReviewsSelect<T extends boolean = true> {
+  rating?: T;
+  comment?: T;
+  author?: T;
+  course?: T;
+  isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
