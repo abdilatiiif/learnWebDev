@@ -12,7 +12,6 @@ import { Media } from './collections/Media'
 import { Courses } from './collections/Courses '
 import { Enroll } from './collections/Enroll'
 import { CoursesReviews } from './collections/CoursesReviews'
-import { Comments } from './collections/Comments'
 import { Likes } from './collections/Likes'
 import { Hero } from './collections/Hero'
 
@@ -26,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Hero, Courses, Enroll, Comments, Likes, CoursesReviews],
+  collections: [Users, Media, Hero, Courses, Enroll, Likes, CoursesReviews],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
