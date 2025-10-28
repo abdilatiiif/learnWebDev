@@ -29,7 +29,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <NavLinks />
-        
+
         <main>{children}</main>
       </body>
     </html>
