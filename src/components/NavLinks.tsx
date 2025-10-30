@@ -1,11 +1,8 @@
 import Link from 'next/link'
-import { Button } from './ui/button'
 import Image from 'next/image'
 import logo from '@/images/logo.png'
-import { LogOut, Menu, User } from 'lucide-react'
+import { Menu, User } from 'lucide-react'
 
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import {
   Sheet,
   SheetClose,
@@ -16,6 +13,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import LogoutButton from './LogoutButton'
 
 function NavLinks() {
   return (
@@ -67,13 +65,12 @@ function NavLinks() {
               <Link href="/contact" className="text-slate-600 hover:text-slate-900 transition">
                 Kontakt
               </Link>
-
               <div className="flex items-center flex-col">
                 <Link href="/user" className="flex items-center gap-4 mt-4">
                   <User /> Profil
                 </Link>
-                <Link href="/logout" className="flex items-center gap-4 mt-4">
-                  <LogOut /> Logg ut
+                <Link href="/login" className="flex items-center gap-4 mt-4">
+                  <LogoutButton />
                 </Link>
               </div>
             </SheetHeader>

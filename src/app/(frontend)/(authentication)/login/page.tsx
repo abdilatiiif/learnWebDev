@@ -9,6 +9,8 @@ import Link from 'next/link'
 
 import React from 'react'
 
+import { login } from '@/actions/login'
+
 function LoginPage() {
   const [formData, setFormData] = useState({
     email: '',
@@ -17,9 +19,15 @@ function LoginPage() {
 
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
+
+    try {
+      await login(formData as { email: string; password: string })
+    } catch (error) {
+      setSubmitted(false)
+    }
   }
 
   const handleChange = (
@@ -29,10 +37,6 @@ function LoginPage() {
       ...formData,
       [e.target.name]: e.target.value,
     })
-  }
-
-  if (submitted) {
-    console.log({ email: formData.email, password: formData.password })
   }
 
   return (
@@ -48,6 +52,7 @@ function LoginPage() {
               id="email"
               name="email"
               type="email"
+              autoComplete="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="din@epost.no"
@@ -64,6 +69,7 @@ function LoginPage() {
               id="password"
               name="password"
               type="password"
+              autoComplete="current-password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Ditt passord"
