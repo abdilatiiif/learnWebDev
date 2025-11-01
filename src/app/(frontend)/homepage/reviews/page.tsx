@@ -11,49 +11,64 @@ async function ReviewPage() {
 
   console.log(reviews)
 
+  // Group reviews by course
+  const groupedReviews = reviews.reduce(
+    (acc, review) => {
+      const courseId = typeof review.course === 'object' ? review.course?.id : review.course
+      const courseTitle =
+        typeof review.course === 'object' && review.course?.title
+          ? review.course.title
+          : 'Ukjent kurs'
+
+      if (!acc[courseId]) {
+        acc[courseId] = {
+          courseTitle,
+          reviews: [],
+        }
+      }
+      acc[courseId].reviews.push(review)
+      return acc
+    },
+    {} as Record<string, { courseTitle: string; reviews: typeof reviews }>,
+  )
+
   return (
     <div className="pt-26 container mx-auto px-4 flex items-center flex-col">
       {' '}
-      <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Product Information</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <p>
-              Our flagship product combines cutting-edge technology with sleek design. Built with
-              premium materials, it offers unparalleled performance and reliability.
-            </p>
-            <p>
-              Key features include advanced processing capabilities, and an intuitive user interface
-              designed for both beginners and experts.
-            </p>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>Shipping Details</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <p>
-              We offer worldwide shipping through trusted courier partners. Standard delivery takes
-              3-5 business days, while express shipping ensures delivery within 1-2 business days.
-            </p>
-            <p>
-              All orders are carefully packaged and fully insured. Track your shipment in real-time
-              through our dedicated tracking portal.
-            </p>
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-3">
-          <AccordionTrigger>Return Policy</AccordionTrigger>
-          <AccordionContent className="flex flex-col gap-4 text-balance">
-            <p>
-              We stand behind our products with a comprehensive 30-day return policy. If you&apos;re
-              not completely satisfied, simply return the item in its original condition.
-            </p>
-            <p>
-              Our hassle-free return process includes free return shipping and full refunds
-              processed within 48 hours of receiving the returned item.
-            </p>
-          </AccordionContent>
-        </AccordionItem>
+      <Accordion type="single" collapsible className="mx-auto mt-10" defaultValue="item-1">
+        {Object.entries(groupedReviews).map(
+          ([courseId, { courseTitle, reviews: courseReviews }], index) => (
+            <AccordionItem
+              key={courseId}
+              value={`item-${index + 1}`}
+              className="bg-zink-300 p-5 border-b-2"
+            >
+              <AccordionTrigger>
+                {courseTitle} ({courseReviews.length} anmeldelse
+                {courseReviews.length !== 1 ? 'r' : ''})
+              </AccordionTrigger>
+              <AccordionContent className="flex flex-col gap-6 text-balance border-2 p-3">
+                {courseReviews.map((review, reviewIndex) => (
+                  <div key={review.id} className={`${reviewIndex > 0 ? 'border-t pt-4' : ''}`}>
+                    <div className="flex flex-col gap-2">
+                      <p className="font-semibold">Vurdering: {review.rating}/5</p>
+                      <p className="text-gray-700">{review.comment}</p>
+                      <div className="flex justify-between items-center text-sm text-gray-600 mt-2">
+                        <p>
+                          Av:{' '}
+                          {typeof review.author === 'object' && review.author?.name
+                            ? review.author.name
+                            : 'Ukjent forfatter'}
+                        </p>
+                        <p>Oppdatert: {new Date(review.updatedAt).toLocaleDateString('no-NO')}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </AccordionContent>
+            </AccordionItem>
+          ),
+        )}
       </Accordion>
     </div>
   )

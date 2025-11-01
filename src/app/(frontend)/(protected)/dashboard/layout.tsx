@@ -1,6 +1,6 @@
 import React from 'react'
 import 'src/app/(frontend)/styles.css'
-import NavLinks from '@/components/NavLinks'
+import NavLinks from '../../../../components/NavLinks'
 
 export const metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -29,7 +29,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     <html lang="en">
       <body>
         <NavLinks />
-
         <main>{children}</main>
       </body>
     </html>

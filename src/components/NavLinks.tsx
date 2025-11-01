@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import logo from '@/images/logo.png'
-import { Menu, User } from 'lucide-react'
+import { Menu, User, LayoutDashboard } from 'lucide-react'
 
 import {
   Sheet,
@@ -24,6 +24,14 @@ async function NavLinks() {
   const headers = await getHeaders()
   const payload = await getPayload({ config: payloadConfig })
   const { user } = await payload.auth({ headers })
+
+  console.log('NavLinks bruker:', user)
+
+  // Get the current pathname from headers
+  const pathname = headers.get('x-pathname') || headers.get('referer') || ''
+
+  // 'http://localhost:3000/homepage/dashboard'
+  console.log('NavLinks pathname:', pathname)
 
   return (
     <div>
@@ -55,9 +63,24 @@ async function NavLinks() {
               >
                 Kontakt
               </Link>
-              <Link href="/login" className="flex items-center gap-4">
-                {user && <LogoutButton />}
-              </Link>
+              <div className="flex items-center gap-4">
+                {user ? (
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
+                  >
+                    <LayoutDashboard size={16} />
+                    Dashboard
+                  </Link>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -99,9 +122,7 @@ async function NavLinks() {
                 <Link href="/user" className="flex items-center gap-4 mt-4">
                   <User /> Profil
                 </Link>
-                <Link href="/login" className="flex items-center gap-4 mt-4">
-                  {user && <LogoutButton />}
-                </Link>
+                <div className="flex items-center gap-4 mt-4">{user && <LogoutButton />}</div>
               </div>
             </SheetHeader>
 

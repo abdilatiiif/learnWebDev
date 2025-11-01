@@ -1,57 +1,49 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { LogIn } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import React from 'react'
 
-import { login } from '@/actions/login'
+import { loginFormAction } from '@/actions/login'
 
 function LoginPage() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (formData: FormData) => {
+    setIsLoading(true)
+    setError('')
 
     try {
-      const result = await login(formData as { email: string; password: string })
-
-      if (result.success && result.shouldRedirect) {
-        // Successfully logged in, redirect to dashboard
-        router.push('/dashboard')
-      } else if (!result.success) {
-        // Login failed
-        alert('Login failed: ' + result.message)
-      }
-    } catch (error) {
-      console.error('Login failed:', error)
-      alert('Login failed. Please try again.')
+      await loginFormAction(formData)
+      // If we reach here, the server action should have redirected
+      // But as a fallback, we can redirect client-side
+      router.push('/dashboard')
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed')
+      setIsLoading(false)
     }
-  }
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
   }
 
   return (
     <>
       <h1 className="text-3xl mx-auto absolute top-8 left-8">Logg inn</h1>
       <div className="min-h-screen bg-slate-100 flex items-center justify-center">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form action={handleSubmit} className="space-y-6">
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+              {error}
+            </div>
+          )}
+
           <div>
             <Label htmlFor="email" className="text-slate-900 font-semibold mb-2 block">
               Epost
@@ -61,10 +53,9 @@ function LoginPage() {
               name="email"
               type="email"
               autoComplete="email"
-              value={formData.email}
-              onChange={handleChange}
               placeholder="din@epost.no"
               required
+              disabled={isLoading}
               className="bg-slate-200 outline-none border-2 focus:border-green-400"
             />
           </div>
@@ -78,10 +69,9 @@ function LoginPage() {
               name="password"
               type="password"
               autoComplete="current-password"
-              value={formData.password}
-              onChange={handleChange}
               placeholder="Ditt passord"
               required
+              disabled={isLoading}
               className="bg-slate-200 outline-none border-2 focus:border-green-400"
             />
           </div>
@@ -89,9 +79,11 @@ function LoginPage() {
           <Button
             type="submit"
             size="lg"
+            disabled={isLoading}
             className="w-full bg-slate-900 hover:bg-slate-800 text-lg py-6"
           >
-            Login <LogIn className="ml-2 h-5 w-5" />
+            {isLoading ? 'Logger inn...' : 'Login'}
+            <LogIn className="ml-2 h-5 w-5" />
           </Button>
           <div>
             <Link

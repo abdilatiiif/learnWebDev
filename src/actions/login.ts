@@ -4,6 +4,7 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 
 export async function login(credentials: { email: string; password: string }) {
   const { email, password } = credentials
@@ -39,8 +40,17 @@ export async function login(credentials: { email: string; password: string }) {
 
       console.log('Login vellykket, token satt som cookie')
 
-      // Don't redirect here, let the client handle it
-      return { success: true, message: 'Login successful', user: result.user, shouldRedirect: true }
+      // Revalidate paths to ensure fresh data
+      revalidatePath('/dashboard')
+      revalidatePath('/admin')
+      revalidatePath('/homepage')
+
+      // Check user role and redirect accordingly
+      if (result.user.role === 'admin') {
+        redirect('/admin')
+      } else {
+        redirect('/dashboard')
+      }
     }
 
     console.log('Login resultat:', result)
@@ -48,6 +58,22 @@ export async function login(credentials: { email: string; password: string }) {
   } catch (error) {
     console.error('Login error:', error)
     return { success: false, message: 'Invalid credentials' }
+  }
+}
+
+export async function loginFormAction(formData: FormData) {
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+
+  if (!email || !password) {
+    throw new Error('Email and password are required')
+  }
+
+  try {
+    await login({ email, password })
+  } catch (error) {
+    console.error('Login form action error:', error)
+    throw error
   }
 }
 
