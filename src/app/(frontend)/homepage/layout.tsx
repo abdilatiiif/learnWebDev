@@ -1,4 +1,5 @@
 import NavLinks from '@/components/NavLinks'
+
 import 'src/app/(frontend)/styles.css'
 
 export const metadata = {

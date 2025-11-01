@@ -3,6 +3,7 @@
 import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export async function login(credentials: { email: string; password: string }) {
   const { email, password } = credentials
@@ -37,6 +38,9 @@ export async function login(credentials: { email: string; password: string }) {
       })
 
       console.log('Login vellykket, token satt som cookie')
+
+      // Don't redirect here, let the client handle it
+      return { success: true, message: 'Login successful', user: result.user, shouldRedirect: true }
     }
 
     console.log('Login resultat:', result)

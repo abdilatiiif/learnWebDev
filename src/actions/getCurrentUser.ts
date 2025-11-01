@@ -5,6 +5,9 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 
 export async function getCurrentUser() {
+  const payload = await getPayload({ config })
+  
+
   try {
     const cookieStore = await cookies()
     const token = cookieStore.get('payload-token')
@@ -18,30 +21,6 @@ export async function getCurrentUser() {
     return { hasToken: true, token: token.value }
   } catch (error) {
     console.error('Get current user error:', error)
-    return null
-  }
-}
-
-// Alternativ funksjon som verifiserer token med Payload
-export async function verifyCurrentUser() {
-  try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get('payload-token')
-
-    if (!token) {
-      return null
-    }
-
-    const payload = await getPayload({ config })
-
-    // Finn bruker basert på token
-    const users = await payload.find({
-      collection: 'users',
-    })
-
-    return users.docs[0] || null
-  } catch (error) {
-    console.error('Verify current user error:', error)
     return null
   }
 }

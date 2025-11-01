@@ -6,27 +6,35 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { LogIn } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import React from 'react'
 
 import { login } from '@/actions/login'
 
 function LoginPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   })
 
-  const [submitted, setSubmitted] = useState(false)
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
 
     try {
-      await login(formData as { email: string; password: string })
+      const result = await login(formData as { email: string; password: string })
+
+      if (result.success && result.shouldRedirect) {
+        // Successfully logged in, redirect to dashboard
+        router.push('/dashboard')
+      } else if (!result.success) {
+        // Login failed
+        alert('Login failed: ' + result.message)
+      }
     } catch (error) {
-      setSubmitted(false)
+      console.error('Login failed:', error)
+      alert('Login failed. Please try again.')
     }
   }
 

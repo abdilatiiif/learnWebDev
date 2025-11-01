@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Definer beskyttede ruter
-const protectedRoutes = ['/dashboard', '/profile', '/admin'] // må endre senerer til riktige sider
+const protectedRoutes = ['/dashboard', '/profile', '/admin'] // må endre senerer til riktige
 const authRoutes = ['/login', '/createAccount']
 
 export function middleware(request: NextRequest) {

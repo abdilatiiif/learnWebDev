@@ -13,29 +13,49 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { headers as getHeaders } from 'next/headers.js'
+
+import { getPayload } from 'payload'
+import React from 'react'
+import payloadConfig from '@/payload.config'
 import LogoutButton from './LogoutButton'
 
-function NavLinks() {
+async function NavLinks() {
+  const headers = await getHeaders()
+  const payload = await getPayload({ config: payloadConfig })
+  const { user } = await payload.auth({ headers })
+
+  console.log(user)
+
   return (
     <div>
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="text-2xl font-bold text-slate-900">
+            <Link href="/homepage" className="text-2xl font-bold text-slate-900">
               <Image src={logo} alt="Logo" width={150} height={70} className="rounded-xl" />
             </Link>
             <div className="hidden md:flex items-center gap-8">
-              <Link href="/courses" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/homepage/courses"
+                className="text-slate-600 hover:text-slate-900 transition"
+              >
                 Kurs
               </Link>
-              <Link href="/reviews" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/homepage/reviews"
+                className="text-slate-600 hover:text-slate-900 transition"
+              >
                 Anmeldelser
               </Link>
-              <Link href="/contact" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/homepage/contact"
+                className="text-slate-600 hover:text-slate-900 transition"
+              >
                 Kontakt
               </Link>
-              <Link href="/user">
-                <User />
+              <Link href="/login" className="flex items-center gap-4">
+                {user && <LogoutButton />}
               </Link>
             </div>
           </div>
@@ -70,7 +90,7 @@ function NavLinks() {
                   <User /> Profil
                 </Link>
                 <Link href="/login" className="flex items-center gap-4 mt-4">
-                  <LogoutButton />
+                  {user && <LogoutButton />}
                 </Link>
               </div>
             </SheetHeader>

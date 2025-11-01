@@ -190,46 +190,13 @@ export interface Hero {
 export interface Course {
   id: number;
   title: string;
-  description: string;
-  location: string;
+  description?: string | null;
+  category: 'frontend' | 'backend' | 'fullstack';
   price: number;
-  maxSpots: number;
-  availableSpots?: number | null;
-  duration: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  highlights?:
-    | {
-        highlight?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  images?:
-    | {
-        image?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  included?:
-    | {
-        item?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  schedule?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  duration?: string | null;
+  level: 'beginner' | 'intermediate' | 'advanced';
+  image_url?: string | null;
+  enrollments: number;
   isActive?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -415,31 +382,12 @@ export interface HeroSelect<T extends boolean = true> {
 export interface CoursesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
-  location?: T;
+  category?: T;
   price?: T;
-  maxSpots?: T;
-  availableSpots?: T;
   duration?: T;
-  difficulty?: T;
-  highlights?:
-    | T
-    | {
-        highlight?: T;
-        id?: T;
-      };
-  images?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
-  included?:
-    | T
-    | {
-        item?: T;
-        id?: T;
-      };
-  schedule?: T;
+  level?: T;
+  image_url?: T;
+  enrollments?: T;
   isActive?: T;
   updatedAt?: T;
   createdAt?: T;
