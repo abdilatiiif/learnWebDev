@@ -9,7 +9,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Courses } from './collections/Courses '
+import { Courses } from './collections/Courses'
 import { Enroll } from './collections/Enroll'
 import { CoursesReviews } from './collections/CoursesReviews'
 import { Likes } from './collections/Likes'
