@@ -25,32 +25,33 @@ async function NavLinks() {
   const payload = await getPayload({ config: payloadConfig })
   const { user } = await payload.auth({ headers })
 
-  console.log(user)
-
   return (
     <div>
       <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/homepage" className="text-2xl font-bold text-slate-900">
+            <Link
+              href="/homepage"
+              className="text-2xl font-bold text-slate-900 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
+            >
               <Image src={logo} alt="Logo" width={150} height={70} className="rounded-xl" />
             </Link>
             <div className="hidden md:flex items-center gap-8">
               <Link
                 href="/homepage/courses"
-                className="text-slate-600 hover:text-slate-900 transition"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
               >
                 Kurs
               </Link>
               <Link
                 href="/homepage/reviews"
-                className="text-slate-600 hover:text-slate-900 transition"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
               >
                 Anmeldelser
               </Link>
               <Link
                 href="/homepage/contact"
-                className="text-slate-600 hover:text-slate-900 transition"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
               >
                 Kontakt
               </Link>
@@ -76,13 +77,22 @@ async function NavLinks() {
               <Link href="/" className="text-2xl font-bold text-slate-900">
                 <Image src={logo} alt="Logo" width={150} height={70} className="rounded-xl" />
               </Link>
-              <Link href="/courses" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/courses"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-out hover:scale-105"
+              >
                 Kurs
               </Link>
-              <Link href="/reviews" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/reviews"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-out hover:scale-105"
+              >
                 Anmeldelser
               </Link>
-              <Link href="/contact" className="text-slate-600 hover:text-slate-900 transition">
+              <Link
+                href="/contact"
+                className="text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:scale-105"
+              >
                 Kontakt
               </Link>
               <div className="flex items-center flex-col">

@@ -2,14 +2,14 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // Definer beskyttede ruter
-const protectedRoutes = ['/dashboard', '/profile', '/admin'] // må endre senerer til riktige
+const protectedRoutes = ['/homepage', '/profile', '/admin'] // må endre senerer til riktige
 const authRoutes = ['/login', '/createAccount']
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('payload-token')
   const { pathname } = request.nextUrl
 
-  // Hvis bruker har token og prøver å gå til auth sider, redirect til dashboard
+  // Hvis bruker har token og prøver å gå til auth sider, redirect til homepage
   if (token && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
