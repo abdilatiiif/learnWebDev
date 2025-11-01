@@ -72,7 +72,6 @@ export interface Config {
     hero: Hero;
     courses: Course;
     enroll: Enroll;
-    comments: Comment;
     likes: Like;
     'courses-reviews': CoursesReview;
     'payload-locked-documents': PayloadLockedDocument;
@@ -86,7 +85,6 @@ export interface Config {
     hero: HeroSelect<false> | HeroSelect<true>;
     courses: CoursesSelect<false> | CoursesSelect<true>;
     enroll: EnrollSelect<false> | EnrollSelect<true>;
-    comments: CommentsSelect<false> | CommentsSelect<true>;
     likes: LikesSelect<false> | LikesSelect<true>;
     'courses-reviews': CoursesReviewsSelect<false> | CoursesReviewsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -254,18 +252,6 @@ export interface Enroll {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments".
- */
-export interface Comment {
-  id: number;
-  content: string;
-  author: number | User;
-  courses: number | Course;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "likes".
  */
 export interface Like {
@@ -315,10 +301,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'enroll';
         value: number | Enroll;
-      } | null)
-    | ({
-        relationTo: 'comments';
-        value: number | Comment;
       } | null)
     | ({
         relationTo: 'likes';
@@ -474,17 +456,6 @@ export interface EnrollSelect<T extends boolean = true> {
   status?: T;
   enrollDate?: T;
   specialRequests?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "comments_select".
- */
-export interface CommentsSelect<T extends boolean = true> {
-  content?: T;
-  author?: T;
-  courses?: T;
   updatedAt?: T;
   createdAt?: T;
 }
