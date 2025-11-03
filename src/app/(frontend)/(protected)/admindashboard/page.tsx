@@ -3,7 +3,24 @@ import payloadConfig from '@/payload.config'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { BookOpen, Trophy, User, Clock, Star } from 'lucide-react'
+import {
+  BookOpen,
+  Trophy,
+  User,
+  Clock,
+  Star,
+  Mail,
+  Calendar,
+  MessageSquare,
+  Check,
+  AlertCircle,
+  GraduationCap,
+  Users,
+  CheckCircle,
+  XCircle,
+  UserPlus,
+} from 'lucide-react'
+import { getMessages } from '@/actions/getMessages'
 
 async function adminDashboardPage() {
   const headersList = await headers()
@@ -19,6 +36,10 @@ async function adminDashboardPage() {
   if (user.role !== 'admin') {
     redirect('/dashboard') // Redirect non-admin users to regular dashboard
   }
+
+  const messages = await getMessages()
+
+  console.log('Admin Dashboard Messages:', messages)
 
   return (
     <div className="pt-20 min-h-screen">
@@ -57,72 +78,162 @@ async function adminDashboardPage() {
 
               <div className="space-y-4">
                 {/* påmelding 1 */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
+                <div className="bg-linear-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-purple-100 hover:to-pink-100">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
-                      <p className="text-sm text-gray-600 mb-2">
-                        Hvem ønsker plass for dette kurset?
-                      </p>
-                      <p>Navn: Ola Nordmann</p>
-                      <div className="flex items-center space-x-4">
-                        antall plasser tilgjengelig: 5 / 20
+                      {/* Course header with icon */}
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="bg-purple-500 rounded-full p-2">
+                          <GraduationCap className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-lg">React Fundamentals</h3>
+                          <p className="text-sm text-purple-600 font-medium">Ny påmelding</p>
+                        </div>
+                      </div>
+
+                      {/* Student info */}
+                      <div className="bg-white rounded-lg p-4 mb-4 border-l-4 border-purple-400">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <UserPlus className="h-4 w-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">Ola Nordmann</span>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Ønsker plass på React Fundamentals kurset
+                        </p>
+
+                        {/* Capacity info */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <Users className="h-4 w-4 text-gray-500" />
+                            <span className="text-sm text-gray-600">Kapasitet:</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                              5 / 20 plasser
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="ml-4 flex flex-col gap-2">
-                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
-                        Aksepter
+
+                    {/* Action buttons */}
+                    <div className="ml-6 flex flex-col gap-3">
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <CheckCircle className="h-4 w-4" />
+                        <span>Aksepter</span>
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
-                        Avslå
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <XCircle className="h-4 w-4" />
+                        <span>Avslå</span>
                       </button>
                     </div>
                   </div>
                 </div>
 
                 {/* påmelding 2 */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
+                <div className="bg-linear-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-blue-100 hover:to-cyan-100">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
-                      <p className="text-sm text-gray-600 mb-2">
-                        Hvem ønsker plass for dette kurset?
-                      </p>
-                      <p>Navn: Ola Nordmann</p>
-                      <div className="flex items-center space-x-4">
-                        antall plasser tilgjengelig: 5 / 20
+                      {/* Course header with icon */}
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="bg-blue-500 rounded-full p-2">
+                          <GraduationCap className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-lg">Next.js Masterclass</h3>
+                          <p className="text-sm text-blue-600 font-medium">Ny påmelding</p>
+                        </div>
+                      </div>
+
+                      {/* Student info */}
+                      <div className="bg-white rounded-lg p-4 mb-4 border-l-4 border-blue-400">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <UserPlus className="h-4 w-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">Kari Hansen</span>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Ønsker plass på Next.js Masterclass kurset
+                        </p>
+
+                        {/* Capacity info */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <Users className="h-4 w-4 text-gray-500" />
+                            <span className="text-sm text-gray-600">Kapasitet:</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
+                              12 / 15 plasser
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="ml-4 flex flex-col gap-2">
-                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
-                        Aksepter
+
+                    {/* Action buttons */}
+                    <div className="ml-6 flex flex-col gap-3">
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <CheckCircle className="h-4 w-4" />
+                        <span>Aksepter</span>
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
-                        Avslå
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <XCircle className="h-4 w-4" />
+                        <span>Avslå</span>
                       </button>
                     </div>
                   </div>
                 </div>
 
                 {/* påmelding 3 */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                  <div className="flex items-center justify-between">
+                <div className="bg-linear-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-emerald-100 hover:to-teal-100">
+                  <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
-                      <p className="text-sm text-gray-600 mb-2">
-                        Hvem ønsker plass for dette kurset?
-                      </p>
-                      <p>Navn: Ola Nordmann</p>
-                      <div className="flex items-center space-x-4">
-                        antall plasser tilgjengelig: 5 / 20
+                      {/* Course header with icon */}
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="bg-emerald-500 rounded-full p-2">
+                          <GraduationCap className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-lg">TypeScript Essentials</h3>
+                          <p className="text-sm text-emerald-600 font-medium">Ny påmelding</p>
+                        </div>
+                      </div>
+
+                      {/* Student info */}
+                      <div className="bg-white rounded-lg p-4 mb-4 border-l-4 border-emerald-400">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <UserPlus className="h-4 w-4 text-gray-600" />
+                          <span className="font-semibold text-gray-800">Erik Olsen</span>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Ønsker plass på TypeScript Essentials kurset
+                        </p>
+
+                        {/* Capacity info */}
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <Users className="h-4 w-4 text-gray-500" />
+                            <span className="text-sm text-gray-600">Kapasitet:</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <div className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
+                              18 / 20 plasser
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="ml-4 flex flex-col gap-2">
-                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
-                        Aksepter
+
+                    {/* Action buttons */}
+                    <div className="ml-6 flex flex-col gap-3">
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <CheckCircle className="h-4 w-4" />
+                        <span>Aksepter</span>
                       </button>
-                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
-                        Avslå
+                      <button className="inline-flex items-center space-x-2 bg-linear-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                        <XCircle className="h-4 w-4" />
+                        <span>Avslå</span>
                       </button>
                     </div>
                   </div>
@@ -136,11 +247,70 @@ async function adminDashboardPage() {
             {/* Recent Achievements */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Nylige varsler</h3>
-              <ul>
-                <li>melding 1</li>
-                <li>melding 2</li>
-                <li>melding 3</li>
-              </ul>
+              <div className="space-y-4 max-h-96 overflow-y-auto">
+                {messages.length > 0 ? (
+                  messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className="bg-linear-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-lg p-4 hover:shadow-md transition-all duration-200 hover:from-blue-100 hover:to-indigo-100"
+                    >
+                      {/* Header with sender info */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <div className="bg-blue-500 rounded-full p-2">
+                            <Mail className="h-4 w-4 text-white" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 text-sm">
+                              {message.sender}
+                            </h4>
+                            <p className="text-xs text-blue-600 flex items-center">
+                              <span className="mr-1">✉</span>
+                              {message.email}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1 text-xs text-gray-500">
+                          <Calendar className="h-3 w-3" />
+                          <span>{new Date(message.createdAt).toLocaleDateString('no-NO')}</span>
+                        </div>
+                      </div>
+
+                      {/* Subject */}
+                      <div className="mb-3">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <MessageSquare className="h-4 w-4 text-gray-600" />
+                          <span className="font-medium text-gray-800 text-sm">
+                            {message.subject}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Message content */}
+                      <div className="mb-3">
+                        <p className="text-sm text-gray-700 leading-relaxed bg-white rounded-md p-3 border-l-4 border-blue-400">
+                          {message.message}
+                        </p>
+                      </div>
+
+                      {/* Action button */}
+                      <div className="flex justify-end">
+                        <button className="inline-flex items-center space-x-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-lg text-xs font-medium transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                          <Check className="h-3 w-3" />
+                          <span>Marker som lest</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <div className="bg-gray-100 rounded-full p-4 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                      <AlertCircle className="h-8 w-8 text-gray-400" />
+                    </div>
+                    <p className="text-gray-500 text-sm">Ingen meldinger ennå</p>
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* User Info */}
