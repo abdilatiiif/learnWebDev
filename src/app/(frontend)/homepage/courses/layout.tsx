@@ -1,4 +1,6 @@
+import Footer from '@/components/Footer'
 import NavLinks from '@/components/NavLinks'
+
 import 'src/app/(frontend)/styles.css'
 
 export const metadata = {
@@ -7,5 +9,5 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return { children }
+  return <>{children}</>
 }
