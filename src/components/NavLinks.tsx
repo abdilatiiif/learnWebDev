@@ -119,7 +119,10 @@ async function NavLinks() {
                 Kontakt
               </Link>
               <div className="flex items-center flex-col">
-                <Link href="/user" className="flex items-center gap-4 mt-4">
+                <Link
+                  href="/dashboard"
+                  className="text-slate-600 flex hover:text-slate-900 transition-all duration-300 ease-in-out hover:scale-105"
+                >
                   <User /> Profil
                 </Link>
                 <div className="flex items-center gap-4 mt-4">{user && <LogoutButton />}</div>

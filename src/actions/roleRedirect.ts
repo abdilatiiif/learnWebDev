@@ -16,7 +16,8 @@ export async function redirectBasedOnRole() {
     }
 
     if (user.role === 'admin') {
-      redirect('/admin')
+      console.log('Redirecting to /admindashboard for admin user')
+      redirect('/admindashboard')
     } else {
       redirect('/dashboard')
     }

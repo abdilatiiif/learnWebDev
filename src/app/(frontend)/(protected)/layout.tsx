@@ -1,6 +1,6 @@
 import React from 'react'
 import 'src/app/(frontend)/styles.css'
-import NavLinks from '../../../../components/NavLinks'
+import NavLinks from '../../../components/NavLinks'
 import Footer from '@/components/Footer'
 
 export const metadata = {
@@ -26,5 +26,11 @@ export const metadata = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
-  return <>{children}</>
+  return (
+    <>
+      <NavLinks />
+      {children}
+      <Footer />
+    </>
+  )
 }

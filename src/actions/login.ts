@@ -47,7 +47,7 @@ export async function login(credentials: { email: string; password: string }) {
 
       // Check user role and redirect accordingly
       if (result.user.role === 'admin') {
-        redirect('/admin')
+        redirect('/admindashboard') // Change to /admin if needed
       } else {
         redirect('/dashboard')
       }

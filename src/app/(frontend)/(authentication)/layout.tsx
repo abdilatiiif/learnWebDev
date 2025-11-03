@@ -1,5 +1,6 @@
 import NavLinks from '@/components/NavLinks'
 import 'src/app/(frontend)/styles.css'
+import Footer from '@/components/Footer'
 
 export const metadata = {
   title: 'Next.js',
@@ -7,5 +8,11 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return { children }
+  return (
+    <>
+      <NavLinks />
+      {children}
+      <Footer />
+    </>
+  )
 }
