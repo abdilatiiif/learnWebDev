@@ -21,10 +21,10 @@ async function adminDashboardPage() {
   }
 
   return (
-    <div className="pt-20 min-h-screen bg-orange-300">
+    <div className="pt-20 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Header */}
-        <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+        <div className=" rounded-xl shadow-lg p-6 mb-8 bg-orange-300">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -46,89 +46,83 @@ async function adminDashboardPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Mine Aktive Kurs</h2>
+                <h2 className="text-xl font-bold text-gray-900">Mine Aktive Oppgaver</h2>
                 <Link
-                  href="/homepage/courses"
+                  href="/students"
                   className="text-blue-600 hover:text-blue-700 font-medium text-sm"
                 >
-                  Se alle kurs →
+                  Se alle studenter →
                 </Link>
               </div>
 
               <div className="space-y-4">
-                {/* Course 1 */}
+                {/* påmelding 1 */}
                 <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">React Fundamentals</h3>
+                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
                       <p className="text-sm text-gray-600 mb-2">
-                        Lær grunnleggende React konsepter og komponenter
+                        Hvem ønsker plass for dette kurset?
                       </p>
+                      <p>Navn: Ola Nordmann</p>
                       <div className="flex items-center space-x-4">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-blue-600 h-2 rounded-full"
-                            style={{ width: '75%' }}
-                          ></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">75%</span>
+                        antall plasser tilgjengelig: 5 / 20
                       </div>
                     </div>
-                    <div className="ml-4">
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    <div className="ml-4 flex flex-col gap-2">
+                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
                         Aksepter
+                      </button>
+                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
+                        Avslå
                       </button>
                     </div>
                   </div>
                 </div>
 
-                {/* Course 2 */}
+                {/* påmelding 2 */}
                 <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">Next.js Masterclass</h3>
+                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
                       <p className="text-sm text-gray-600 mb-2">
-                        Bygg moderne webapplikasjoner med Next.js
+                        Hvem ønsker plass for dette kurset?
                       </p>
+                      <p>Navn: Ola Nordmann</p>
                       <div className="flex items-center space-x-4">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-green-600 h-2 rounded-full"
-                            style={{ width: '45%' }}
-                          ></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">45%</span>
+                        antall plasser tilgjengelig: 5 / 20
                       </div>
                     </div>
-                    <div className="ml-4">
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    <div className="ml-4 flex flex-col gap-2">
+                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
                         Aksepter
+                      </button>
+                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
+                        Avslå
                       </button>
                     </div>
                   </div>
                 </div>
 
-                {/* Course 3 */}
+                {/* påmelding 3 */}
                 <div className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">TypeScript Essentials</h3>
+                      <h3 className="font-semibold text-gray-900">@Kurs navn</h3>
                       <p className="text-sm text-gray-600 mb-2">
-                        Mastering type safety in JavaScript
+                        Hvem ønsker plass for dette kurset?
                       </p>
+                      <p>Navn: Ola Nordmann</p>
                       <div className="flex items-center space-x-4">
-                        <div className="flex-1 bg-gray-200 rounded-full h-2">
-                          <div
-                            className="bg-purple-600 h-2 rounded-full"
-                            style={{ width: '20%' }}
-                          ></div>
-                        </div>
-                        <span className="text-sm font-medium text-gray-700">20%</span>
+                        antall plasser tilgjengelig: 5 / 20
                       </div>
                     </div>
-                    <div className="ml-4">
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                    <div className="ml-4 flex flex-col gap-2">
+                      <button className="bg-blue-600 hover:bg-green-300 hover:text-black text-white px-4 py-2 rounded-lg text-sm font-medium">
                         Aksepter
+                      </button>
+                      <button className="bg-red-500 hover:bg-red-600 text-black px-4 py-2 rounded-lg text-sm font-medium">
+                        Avslå
                       </button>
                     </div>
                   </div>
@@ -168,8 +162,16 @@ async function adminDashboardPage() {
 
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-bold text-gray-900 mb-4">Hurtighandlinger</h3>
-              <div className="space-y-3"></div>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Admin handlinger</h3>
+              <div className="space-y-3">
+                kommer Admin linker her
+                <Link href="/admindashboard/courses">
+                  <button className="w-full text-left">Kurs</button>
+                </Link>
+                <Link href="/admindashboard/enrollments">
+                  <button className="w-full text-left">Påmeldinger</button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
