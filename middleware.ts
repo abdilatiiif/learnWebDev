@@ -4,8 +4,8 @@ import { getPayload } from 'payload'
 import payloadConfig from '@/payload.config'
 
 // Definer beskyttede ruter
-const protectedRoutes = ['/dashboard', '/admin']
-const adminOnlyRoutes = ['/admindashboard'] // Only admin users can access these
+const protectedRoutes = ['/dashboard']
+const adminOnlyRoutes = ['/admindashboard', '/admin'] // Only admin users can access these
 const authRoutes = ['/login', '/createAccount']
 
 export async function middleware(request: NextRequest) {
@@ -20,7 +20,10 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check if user is trying to access admin-only routes
-  if (adminOnlyRoutes.includes(pathname)) {
+  const isAdminRoute =
+    adminOnlyRoutes.some((route) => pathname === route) || pathname.startsWith('/admin')
+
+  if (isAdminRoute) {
     if (!token) {
       // No token, redirect to login
       return NextResponse.redirect(new URL('/login', request.url))
@@ -29,11 +32,11 @@ export async function middleware(request: NextRequest) {
     try {
       // Verify user role for admin-only routes
       const payload = await getPayload({ config: payloadConfig })
-      
+
       // Create headers object from request
       const headers = new Headers()
       headers.set('authorization', `JWT ${token.value}`)
-      
+
       const { user } = await payload.auth({ headers })
 
       if (!user || user.role !== 'admin') {

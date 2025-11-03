@@ -1,12 +1,21 @@
 import Link from 'next/link'
 import LogoutButton from './LogoutButton'
 
-function Footer() {
+import { cookies } from 'next/headers'
+
+async function Footer() {
+  // Check if payload token exists in cookies
+  const cookieStore = await cookies()
+  const payloadToken = cookieStore.get('payload-token')
+  const isLoggedIn = !!payloadToken
+
   return (
     <footer className=" relative bg-slate-900 text-white py-12 px-6">
-      <span className="absolute top-4 right-4 text-black">
-        <LogoutButton />{' '}
-      </span>
+      {isLoggedIn && (
+        <span className="absolute text-black top-4 right-4">
+          <LogoutButton />
+        </span>
+      )}
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div className="flex items-center flex-col text-center">

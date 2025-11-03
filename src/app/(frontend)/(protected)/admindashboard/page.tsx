@@ -19,8 +19,46 @@ import {
   CheckCircle,
   XCircle,
   UserPlus,
+  PanelsTopLeft,
+  Library,
+  NotebookPen,
 } from 'lucide-react'
 import { getMessages } from '@/actions/getMessages'
+
+// Function to get capacity badge styling based on enrollment ratio
+function getCapacityBadgeStyle(enrolled: number, total: number) {
+  const ratio = enrolled / total
+
+  if (ratio <= 0.5) {
+    // Green: 50% or less filled (plenty of spots)
+    return {
+      bgColor: 'bg-green-100',
+      textColor: 'text-green-800',
+      status: 'Mange plasser',
+    }
+  } else if (ratio <= 0.8) {
+    // Yellow: 51-80% filled (filling up)
+    return {
+      bgColor: 'bg-yellow-100',
+      textColor: 'text-yellow-800',
+      status: 'Fyller seg opp',
+    }
+  } else if (ratio < 1) {
+    // Orange: 81-99% filled (almost full)
+    return {
+      bgColor: 'bg-orange-100',
+      textColor: 'text-orange-800',
+      status: 'Nesten full',
+    }
+  } else {
+    // Red: 100% filled (full)
+    return {
+      bgColor: 'bg-red-100',
+      textColor: 'text-red-800',
+      status: 'Full',
+    }
+  }
+}
 
 async function adminDashboardPage() {
   const headersList = await headers()
@@ -109,9 +147,18 @@ async function adminDashboardPage() {
                             <span className="text-sm text-gray-600">Kapasitet:</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                              5 / 20 plasser
-                            </div>
+                            {(() => {
+                              const enrolled = 5
+                              const total = 20
+                              const style = getCapacityBadgeStyle(enrolled, total)
+                              return (
+                                <div
+                                  className={`${style.bgColor} ${style.textColor} px-2 py-1 rounded-full text-xs font-medium`}
+                                >
+                                  {enrolled} / {total} plasser
+                                </div>
+                              )
+                            })()}
                           </div>
                         </div>
                       </div>
@@ -163,9 +210,18 @@ async function adminDashboardPage() {
                             <span className="text-sm text-gray-600">Kapasitet:</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-medium">
-                              12 / 15 plasser
-                            </div>
+                            {(() => {
+                              const enrolled = 12
+                              const total = 15
+                              const style = getCapacityBadgeStyle(enrolled, total)
+                              return (
+                                <div
+                                  className={`${style.bgColor} ${style.textColor} px-2 py-1 rounded-full text-xs font-medium`}
+                                >
+                                  {enrolled} / {total} plasser
+                                </div>
+                              )
+                            })()}
                           </div>
                         </div>
                       </div>
@@ -217,9 +273,18 @@ async function adminDashboardPage() {
                             <span className="text-sm text-gray-600">Kapasitet:</span>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <div className="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-medium">
-                              18 / 20 plasser
-                            </div>
+                            {(() => {
+                              const enrolled = 18
+                              const total = 20
+                              const style = getCapacityBadgeStyle(enrolled, total)
+                              return (
+                                <div
+                                  className={`${style.bgColor} ${style.textColor} px-2 py-1 rounded-full text-xs font-medium`}
+                                >
+                                  {enrolled} / {total} plasser
+                                </div>
+                              )
+                            })()}
                           </div>
                         </div>
                       </div>
@@ -333,13 +398,22 @@ async function adminDashboardPage() {
             {/* Quick Actions */}
             <div className="bg-white rounded-xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Admin handlinger</h3>
-              <div className="space-y-3">
-                kommer Admin linker her
-                <Link href="/admindashboard/courses">
-                  <button className="w-full text-left">Kurs</button>
+              <div className="space-y-3 flex flex-col gap-2">
+                <Link href="/admin/collections/hero/create">
+                  <button className="w-full cursor-pointer text-lg flex items-center justify-center bg-green-500 rounded-2xl p-2">
+                    Endre (HERO) <PanelsTopLeft />
+                  </button>
                 </Link>
-                <Link href="/admindashboard/enrollments">
-                  <button className="w-full text-left">Påmeldinger</button>
+                <Link href="/admin/collections/courses/create">
+                  <button className="w-full cursor-pointer text-lg flex items-center justify-center bg-blue-300 rounded-2xl p-2">
+                    Legge til (KURS) <Library />
+                  </button>
+                </Link>
+
+                <Link href="/admin/collections/courses?limit=10">
+                  <button className="w-full cursor-pointer text-lg flex items-center justify-center bg-blue-300 rounded-2xl p-2">
+                    Endre (KURS) <NotebookPen />
+                  </button>
                 </Link>
               </div>
             </div>

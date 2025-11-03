@@ -26,11 +26,5 @@ export const metadata = {
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props
 
-  return (
-    <>
-      <NavLinks />
-      {children}
-      <Footer />
-    </>
-  )
+  return <>{children}</>
 }

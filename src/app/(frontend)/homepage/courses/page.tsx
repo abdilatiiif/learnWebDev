@@ -38,7 +38,7 @@ function CoursesPage() {
   }
 
   return (
-    <div className="pt-26 container mx-auto px-4 flex items-center flex-col">
+    <div className="pt-26 pb-10 container mx-auto px-4 flex items-center flex-col">
       <div className="flex items-center gap-4 mb-8 flex-wrap">
         <div className="flex items-center gap-2 text-slate-700 font-semibold">
           <Filter className="w-5 h-5" />
