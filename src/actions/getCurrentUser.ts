@@ -5,10 +5,8 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 
 export async function getCurrentUser() {
-  const payload = await getPayload({ config })
-  
-
   try {
+    const payload = await getPayload({ config })
     const cookieStore = await cookies()
     const token = cookieStore.get('payload-token')
 
@@ -16,9 +14,22 @@ export async function getCurrentUser() {
       return null
     }
 
-    // Du kan også bare returnere at token eksisterer
-    // uten å verifisere det med Payload hver gang
-    return { hasToken: true, token: token.value }
+    // Create headers with the token for authentication
+    const headers = new Headers()
+    headers.set('authorization', `JWT ${token.value}`)
+
+    const { user } = await payload.auth({ headers })
+
+    if (!user) {
+      return null
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    }
   } catch (error) {
     console.error('Get current user error:', error)
     return null

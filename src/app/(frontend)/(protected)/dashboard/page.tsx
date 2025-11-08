@@ -73,8 +73,8 @@ export default async function DashboardPage() {
                 <Clock className="h-6 w-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-600">Timer Totalt</p>
-                <p className="text-2xl font-bold text-gray-900">248</p>
+                <p className="text-sm font-medium text-gray-600">Kurs Bestilt</p>
+                <p className="text-2xl font-bold text-gray-900">2</p>
               </div>
             </div>
           </div>

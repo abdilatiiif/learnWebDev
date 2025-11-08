@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { LogIn, Terminal, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 import {
   Select,
@@ -19,31 +20,56 @@ import {
 import React from 'react'
 import grantAdmin from '@/actions/grantAdmin'
 import { Alert, AlertTitle } from '@/components/ui/alert'
+import { createAccount } from '@/actions/UPDATE/CreateAccount'
 
 function CreateAccountPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    type: '',
+    type: 'user' as 'user' | 'admin',
     code: '',
   })
 
   const [submitted, setSubmitted] = useState(false)
-  const [melding, setMelding] = useState(true)
+  const [melding, setMelding] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitted(true)
 
-    // Handle admin creation with prompt
-    if (formData.type === 'admin') {
-      const code = window.prompt('Enter admin code:')
-      if (code) {
-        ;(await grantAdmin({ code: Number(code) })) ? setMelding(true) : setMelding(false)
+    try {
+      let result
+
+      // Handle admin creation with prompt
+      if (formData.type === 'admin') {
+        const code = window.prompt('Enter admin code:')
+        if (code) {
+          result = await createAccount({ ...formData, code })
+        } else {
+          setMelding('Ugyldig admin-kode')
+          return
+        }
+      } else {
+        result = await createAccount(formData) // Pass as single object
       }
-    } else {
-      console.log('User konto ble laget:', formData.email, formData.name)
+
+      if (result?.success) {
+        setMelding('Konto opprettet!')
+
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+          router.push('/login')
+        }, 2000)
+      } else {
+        setMelding(`${result?.error}`)
+
+        console.error('Account creation failed:', result?.error)
+      }
+    } catch (error) {
+      console.error('Error creating account:', error)
+      setMelding('Noe gikk galt ved opprettelse av konto. Prøv igjen senere.')
     }
   }
 
@@ -59,14 +85,14 @@ function CreateAccountPage() {
   const handleSelectChange = (value: string) => {
     setFormData({
       ...formData,
-      type: value,
+      type: value as 'user' | 'admin',
     })
   }
 
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+    <div className=" min-h-screen flex items-center justify-center bg-black/10 backdrop-blur-sm">
       <h1 className="text-3xl mx-auto absolute top-8 left-8">Lag bruker</h1>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 md:w-1/3">
         <div>
           <Label htmlFor="name" className="text-slate-900 font-semibold mb-2 block">
             Navn
@@ -139,15 +165,9 @@ function CreateAccountPage() {
           Lag bruker <User className="ml-2 h-5 w-5" />
         </Button>
 
-        {melding === false && (
+        {melding && (
           <Alert variant="destructive">
-            <AlertTitle>Feil kode!</AlertTitle>
-          </Alert>
-        )}
-
-        {submitted && melding === true && (
-          <Alert variant="default">
-            <AlertTitle>Konto opprettet!</AlertTitle>
+            <AlertTitle>{melding}</AlertTitle>
           </Alert>
         )}
       </form>

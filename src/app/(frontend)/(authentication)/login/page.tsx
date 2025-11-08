@@ -36,7 +36,7 @@ function LoginPage() {
   return (
     <>
       <h1 className="text-3xl mx-auto absolute top-8 left-8">Logg inn</h1>
-      <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-black/10 backdrop-blur-sm">
         <form action={handleSubmit} className="space-y-6">
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
