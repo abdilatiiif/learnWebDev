@@ -2,6 +2,12 @@ import { CollectionConfig } from 'payload'
 
 export const CoursesReviews: CollectionConfig = {
   slug: 'courses-reviews',
+  access: {
+    // Only admins can delete messages
+    delete: ({ req: { user } }) => {
+      return user?.role === 'admin'
+    },
+  },
   fields: [
     {
       name: 'rating',

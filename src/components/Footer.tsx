@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import LogoutButton from './LogoutButton'
+import LogoutForm from './LogoutForm'
 
 import { cookies } from 'next/headers'
 
@@ -13,7 +13,7 @@ async function Footer() {
     <footer className=" relative bg-slate-900 text-white py-12 px-6">
       {isLoggedIn && (
         <span className="absolute text-black top-4 right-4">
-          <LogoutButton />
+          <LogoutForm />
         </span>
       )}
       <div className="max-w-7xl mx-auto">
