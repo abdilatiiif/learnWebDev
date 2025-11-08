@@ -1,22 +1,53 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { getPayload } from 'payload'
+import payloadConfig from '@/payload.config'
 
 // Definer beskyttede ruter
-const protectedRoutes = ['/dashboard', '/profile', '/admin'] // må endre senerer til riktige
+const protectedRoutes = ['/dashboard']
+const adminOnlyRoutes = ['/admindashboard', '/admin'] // Only admin users can access these
 const authRoutes = ['/login', '/createAccount']
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const token = request.cookies.get('payload-token')
   const { pathname } = request.nextUrl
 
-  // Hvis bruker har token og prøver å gå til auth sider, redirect til dashboard
+  console.log('Middleware triggered for:', pathname)
+
+  // Hvis bruker har token og prøver å gå til auth sider, redirect til homepage
   if (token && authRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
+    return NextResponse.redirect(new URL('/homepage', request.url))
   }
 
-  // Hvis bruker ikke har token og prøver å gå til beskyttede sider, redirect til login
-  if (!token && protectedRoutes.some((route) => pathname.startsWith(route))) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  // Check if user is trying to access admin-only routes
+  const isAdminRoute =
+    adminOnlyRoutes.some((route) => pathname === route) || pathname.startsWith('/admin')
+
+  if (isAdminRoute) {
+    if (!token) {
+      // No token, redirect to login
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    try {
+      // Verify user role for admin-only routes
+      const payload = await getPayload({ config: payloadConfig })
+
+      // Create headers object from request
+      const headers = new Headers()
+      headers.set('authorization', `JWT ${token.value}`)
+
+      const { user } = await payload.auth({ headers })
+
+      if (!user || user.role !== 'admin') {
+        // User is not admin, redirect to dashboard or forbidden page
+        return NextResponse.redirect(new URL('/dashboard', request.url))
+      }
+    } catch (error) {
+      console.error('Auth error in middleware:', error)
+      // Auth failed, redirect to login
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
   }
 
   return NextResponse.next()

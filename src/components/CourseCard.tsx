@@ -99,7 +99,7 @@ function CourseCard({ course }: { course: any }) {
             <div className="flex flex-col items-center justify-center">
               <Button
                 size="sm"
-                className="bg-slate-900 hover:bg-slate-800 text-white group-hover:scale-105 transition-transform"
+                className="bg-slate-900 hover:bg-slate-800 text-white group-hover:scale-105 cursor-pointer transition-transform"
               >
                 Meld deg på <ArrowRight className="ml-1 h-3 w-3" />
               </Button>

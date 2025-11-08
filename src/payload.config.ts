@@ -14,6 +14,7 @@ import { Enroll } from './collections/Enroll'
 import { CoursesReviews } from './collections/CoursesReviews'
 import { Likes } from './collections/Likes'
 import { Hero } from './collections/Hero'
+import Messages from './collections/Messages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +26,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Hero, Courses, Enroll, Likes, CoursesReviews],
+  collections: [Users, Media, Hero, Courses, Enroll, Likes, CoursesReviews, Messages],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

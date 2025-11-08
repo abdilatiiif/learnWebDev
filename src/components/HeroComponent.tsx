@@ -24,7 +24,7 @@ export default function HeroComponent({
           src={backgroundImage.url}
           alt={backgroundImage.alt || title || 'Hero image'}
           fill
-          className="object-cover"
+          className="object-cover kenburns-top-right"
           priority
         />
       </div>

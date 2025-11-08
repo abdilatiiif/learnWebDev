@@ -74,6 +74,7 @@ export interface Config {
     enroll: Enroll;
     likes: Like;
     'courses-reviews': CoursesReview;
+    messages: Message;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -87,6 +88,7 @@ export interface Config {
     enroll: EnrollSelect<false> | EnrollSelect<true>;
     likes: LikesSelect<false> | LikesSelect<true>;
     'courses-reviews': CoursesReviewsSelect<false> | CoursesReviewsSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -243,6 +245,41 @@ export interface CoursesReview {
   createdAt: string;
 }
 /**
+ * Contact messages from website visitors
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages".
+ */
+export interface Message {
+  id: number;
+  /**
+   * Name of the person sending the message
+   */
+  sender: string;
+  /**
+   * Email address of the sender
+   */
+  email: string;
+  /**
+   * Subject line of the message
+   */
+  subject: string;
+  /**
+   * The actual message content
+   */
+  message: string;
+  /**
+   * Mark this message as read/unread
+   */
+  isRead?: boolean | null;
+  /**
+   * Priority level of the message
+   */
+  priority?: ('low' | 'normal' | 'high' | 'urgent') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -276,6 +313,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'courses-reviews';
         value: number | CoursesReview;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: number | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -427,6 +468,20 @@ export interface CoursesReviewsSelect<T extends boolean = true> {
   author?: T;
   course?: T;
   isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages_select".
+ */
+export interface MessagesSelect<T extends boolean = true> {
+  sender?: T;
+  email?: T;
+  subject?: T;
+  message?: T;
+  isRead?: T;
+  priority?: T;
   updatedAt?: T;
   createdAt?: T;
 }

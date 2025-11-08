@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +117,46 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.kenburns-top-right {
+  -webkit-animation: kenburns-top-right 5s ease-out both;
+  animation: kenburns-top-right 5s ease-out both;
+}
+
+@-webkit-keyframes kenburns-top-right {
+  0% {
+    -webkit-transform: scale(1) translate(0, 0);
+    transform: scale(1) translate(0, 0);
+    -webkit-transform-origin: 84% 16%;
+    transform-origin: 74% 16%;
+  }
+  90% {
+    -webkit-transform: scale(1.1) translate(20px, 35px);
+    transform: scale(1.25) translate(20px, 35px);
+    -webkit-transform-origin: right top;
+    transform-origin: right top;
+  }
+}
+@keyframes kenburns-top-right {
+  0% {
+    -webkit-transform: scale(1) translate(0, 0);
+    transform: scale(1) translate(0, 0);
+    -webkit-transform-origin: 84% 16%;
+    transform-origin: 74% 16%;
+  }
+  90% {
+    -webkit-transform: scale(1.1) translate(20px, -15px);
+    transform: scale(1.1) translate(20px, -15px);
+    -webkit-transform-origin: right top;
+    transform-origin: right top;
+  }
+}
+
+.background-style {
+  background-image: url('/low-poly-grid-haikei.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
