@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { sendMessage } from '@/actions/UPDATE/SendMessage'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -17,14 +19,38 @@ export default function ContactPage() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    }, 3000)
+    setIsSubmitting(true)
+
+    try {
+      const result = await sendMessage(formData)
+
+      if (result.success) {
+        setSubmitted(true)
+        toast.success('Melding sendt!', {
+          description: result.message,
+        })
+
+        setTimeout(() => {
+          setSubmitted(false)
+          setFormData({ name: '', email: '', subject: '', message: '' })
+        }, 5000)
+      } else {
+        toast.error('Kunne ikke sende melding', {
+          description: result.error,
+        })
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      toast.error('Noe gikk galt', {
+        description: 'Prøv igjen senere.',
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -33,8 +59,6 @@ export default function ContactPage() {
       [e.target.name]: e.target.value,
     })
   }
-
-  submitted && console.log('Form submitted:', formData)
 
   return (
     <div className="min-h-screen bg-white/80 backdrop-blur-sm">
@@ -182,8 +206,18 @@ export default function ContactPage() {
                       type="submit"
                       size="lg"
                       className="w-full bg-slate-900 hover:bg-slate-800 text-lg py-6"
+                      disabled={isSubmitting}
                     >
-                      Send Melding <Send className="ml-2 h-5 w-5" />
+                      {isSubmitting ? (
+                        <>
+                          <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                          Sender...
+                        </>
+                      ) : (
+                        <>
+                          Send Melding <Send className="ml-2 h-5 w-5" />
+                        </>
+                      )}
                     </Button>
                   </form>
                 )}

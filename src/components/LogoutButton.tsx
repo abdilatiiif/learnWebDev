@@ -2,40 +2,35 @@
 
 import { Button } from '@/components/ui/button'
 import { LogOut } from 'lucide-react'
-import { handleLogout } from '@/actions/handleLogout'
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { logoutAction } from '@/actions/logoutAction'
+import { useState, useTransition } from 'react'
 
 export default function LogoutButton() {
+  const [isPending, startTransition] = useTransition()
   const [isLoading, setIsLoading] = useState(false)
-  const router = useRouter()
 
-  const handleClick = async () => {
+  const handleClick = () => {
     setIsLoading(true)
-    try {
-      const result = await handleLogout()
-      if (result.success) {
-        // Redirect to login page after successful logout
-        router.push('/login')
-        router.refresh()
-      } else {
-        console.error('Logout failed:', result.error)
+    startTransition(async () => {
+      try {
+        await logoutAction()
+      } catch (error) {
+        console.error('Logout failed:', error)
         setIsLoading(false)
       }
-    } catch (error) {
-      console.error('Logout failed:', error)
-      setIsLoading(false)
-    }
+    })
   }
+
+  const loading = isPending || isLoading
 
   return (
     <Button
       onClick={handleClick}
-      disabled={isLoading}
+      disabled={loading}
       variant="outline"
       className="flex items-center gap-2"
     >
-      {isLoading ? (
+      {loading ? (
         'Logger ut...'
       ) : (
         <>

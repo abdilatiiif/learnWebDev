@@ -3,9 +3,13 @@ import payloadConfig from '@/payload.config'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { BookOpen, Trophy, User, Clock, Star } from 'lucide-react'
+import { BookOpen, Trophy, User, Clock, Star, XCircle } from 'lucide-react'
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>
+}) {
   const headersList = await headers()
   const payload = await getPayload({ config: payloadConfig })
   const { user } = await payload.auth({ headers: headersList })
@@ -20,10 +24,29 @@ export default async function DashboardPage() {
   }
 
   // Allow both users and admins to access dashboard
+  const resolvedSearchParams = await searchParams
+  const hasUnauthorizedError = resolvedSearchParams.error === 'unauthorized'
 
   return (
     <div className="pt-20 min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Error Message */}
+        {hasUnauthorizedError && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center">
+              <div className="bg-red-100 rounded-full p-2 mr-3">
+                <XCircle className="h-5 w-5 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-red-800 font-medium">Ingen tilgang</h3>
+                <p className="text-red-700 text-sm">
+                  Du har ikke tilgang til admin-sider. Kun administratorer kan se admin dashboard.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Welcome Header */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
           <div className="flex items-center justify-between">

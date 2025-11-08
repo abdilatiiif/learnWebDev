@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import logo from '@/images/logo.png'
-import { Menu, User, LayoutDashboard } from 'lucide-react'
+import { Menu, User, LayoutDashboard, NewspaperIcon } from 'lucide-react'
 
 import {
   Sheet,
@@ -18,7 +18,7 @@ import { headers as getHeaders } from 'next/headers.js'
 import { getPayload } from 'payload'
 import React from 'react'
 import payloadConfig from '@/payload.config'
-import LogoutButton from './LogoutButton'
+import LogoutForm from './LogoutForm'
 
 async function NavLinks() {
   const headers = await getHeaders()
@@ -70,13 +70,23 @@ async function NavLinks() {
               </Link>
               <div className="flex items-center gap-4">
                 {user ? (
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
-                  >
-                    <LayoutDashboard size={16} />
-                    Dashboard
-                  </Link>
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
+                    >
+                      <LayoutDashboard size={16} />
+                      Dashboard
+                    </Link>
+
+                    <Link
+                      href="/skoleforum"
+                      className="flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-all duration-300 ease-in-out hover:border-b-2 border-blue-600 pb-1 transform hover:scale-105"
+                    >
+                      <NewspaperIcon size={16} />
+                      Skoleforum
+                    </Link>
+                  </>
                 ) : (
                   <Link
                     href="/login"
@@ -144,22 +154,37 @@ async function NavLinks() {
 
                     <div className="border-t border-slate-200 pt-4 mt-4">
                       {user ? (
-                        <div className="space-y-3">
-                          <SheetClose asChild>
-                            <Link
-                              href="/dashboard"
-                              className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-all duration-200"
-                            >
-                              <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
-                                <LayoutDashboard size={16} />
-                              </div>
-                              Dashboard
-                            </Link>
-                          </SheetClose>
-                          <div className="px-4">
-                            <LogoutButton />
+                        <>
+                          <div className="space-y-3">
+                            <SheetClose asChild>
+                              <Link
+                                href={user.role === 'admin' ? '/admindashboard' : '/dashboard'}
+                                className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-all duration-200"
+                              >
+                                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                  <LayoutDashboard size={16} />
+                                </div>
+                                {user.role === 'admin' ? 'Admin Dashboard' : 'Dashboard'}
+                              </Link>
+                            </SheetClose>
                           </div>
-                        </div>
+                          <div className="space-y-3">
+                            <SheetClose asChild>
+                              <Link
+                                href="/skoleforum"
+                                className="flex items-center gap-3 px-4 py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-all duration-200"
+                              >
+                                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                  <NewspaperIcon size={16} />
+                                </div>
+                                Skoleforum
+                              </Link>
+                            </SheetClose>
+                            <div className="px-4">
+                              <LogoutForm />
+                            </div>
+                          </div>
+                        </>
                       ) : (
                         <SheetClose asChild>
                           <Link
