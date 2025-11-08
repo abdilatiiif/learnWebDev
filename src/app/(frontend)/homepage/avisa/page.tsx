@@ -1,0 +1,1 @@
+// avis side for  skolen
