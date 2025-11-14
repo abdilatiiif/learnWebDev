@@ -29,11 +29,17 @@ export default function HeroComponent({
         />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-20 text-center text-white px-4 max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">{title}</h1>
+      <div className="absolute inset-0 z-10 bg-black/20">'</div>
 
-        {subtitle && <p className="text-xl md:text-2xl mb-8 text-gray-200">{subtitle}</p>}
+      {/* Hero Content */}
+      <div className="relative z-20 text-center p-8 max-w-4xl mx-auto">
+        <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+          {title}
+        </h1>
+
+        {subtitle && (
+          <p className="text-xl md:text-2xl mb-8 text-gray-100 drop-shadow-md">{subtitle}</p>
+        )}
 
         {ctaText && ctaLink && (
           <Link
