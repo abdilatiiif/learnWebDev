@@ -4,7 +4,9 @@ import Link from 'next/link'
 type HeroComponentProps = {
   title: string
   subtitle?: string | null
-  backgroundImage: any
+  imageType?: 'upload' | 'url'
+  backgroundImage?: any
+  backgroundImageUrl?: string
   ctaText?: string | null
   ctaLink?: string | null
 }

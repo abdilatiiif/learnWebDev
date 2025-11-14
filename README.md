@@ -128,6 +128,8 @@ pnpm start
 
 ## Endre hero
 
+- bruk bilder fra https://unsplash.com
+
 ## Legge til kurs / endre Kurs
 
 - kun admins kan endre : dashboard -> admin handlinger -> du kommer til ønsket link
