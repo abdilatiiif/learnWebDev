@@ -5,7 +5,7 @@ import dotenv from 'dotenv'
 // Load environment variables
 dotenv.config()
 
-const seedHero = async () => {
+export const seedHero = async () => {
   const payload = await getPayload({ config })
 
   console.log('Seeding Hero data...')
