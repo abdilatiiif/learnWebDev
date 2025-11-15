@@ -4,9 +4,7 @@ import Link from 'next/link'
 type HeroComponentProps = {
   title: string
   subtitle?: string | null
-  imageType?: 'upload' | 'url'
-  backgroundImage?: any
-  backgroundImageUrl?: string
+  image_url?: string | null
   ctaText?: string | null
   ctaLink?: string | null
 }
@@ -14,7 +12,7 @@ type HeroComponentProps = {
 export default function HeroComponent({
   title,
   subtitle,
-  backgroundImage,
+  image_url,
   ctaText,
   ctaLink,
 }: HeroComponentProps) {
@@ -22,13 +20,15 @@ export default function HeroComponent({
     <section className="relative min-h-screen flex items-center justify-center">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={backgroundImage.url}
-          alt={backgroundImage.alt || title || 'Hero image'}
-          fill
-          className="object-cover kenburns-top-right"
-          priority
-        />
+        {image_url && (
+          <Image
+            src={image_url}
+            alt={title || 'Hero image'}
+            fill
+            className="object-cover kenburns-top-right"
+            priority
+          />
+        )}
       </div>
 
       <div className="absolute inset-0 z-10 bg-black/20">'</div>

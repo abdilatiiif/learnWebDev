@@ -198,7 +198,7 @@ export interface Hero {
   id: number;
   title: string;
   subtitle?: string | null;
-  backgroundImage: number | Media;
+  image_url?: string | null;
   ctaText?: string | null;
   ctaLink?: string | null;
   isActive?: boolean | null;
@@ -470,7 +470,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface HeroSelect<T extends boolean = true> {
   title?: T;
   subtitle?: T;
-  backgroundImage?: T;
+  image_url?: T;
   ctaText?: T;
   ctaLink?: T;
   isActive?: T;

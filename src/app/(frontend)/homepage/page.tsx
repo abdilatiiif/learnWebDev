@@ -28,7 +28,7 @@ async function Homepage() {
           <HeroComponent
             title={heroData.title}
             subtitle={heroData.subtitle}
-            backgroundImage={heroData.backgroundImage}
+            image_url={heroData.image_url || undefined}
             ctaText={heroData.ctaText}
             ctaLink={heroData.ctaLink}
           />

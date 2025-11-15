@@ -34,10 +34,9 @@ export const Hero: CollectionConfig = {
       type: 'text',
     },
     {
-      name: 'backgroundImage',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
+      name: 'image_url',
+      type: 'text',
+      label: 'Bilde-URL',
     },
     {
       name: 'ctaText',

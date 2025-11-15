@@ -4,6 +4,7 @@ import seedUsers from './seed-users'
 import seedReviews from './seed-reviews'
 import seedMessages from './seed-messages'
 import seedArticles from './seed-articles'
+import seedHero from './seed-hero'
 import dotenv from 'dotenv'
 
 // Load environment variables
@@ -25,6 +26,9 @@ async function seedAll() {
     console.log('\n')
 
     await seedArticles()
+    console.log('\n')
+
+    await seedHero()
     console.log('\n')
 
     console.log('🎉 All data seeded successfully!')
