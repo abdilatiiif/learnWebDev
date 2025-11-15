@@ -2,13 +2,15 @@
 
 Inspirert av Moodle - https://lms.gokstadakademiet.no/login/index.php
 
+link til prosjektet:  https://learn-web-dev-latif.vercel.app/homepage
+
 ## Utviklingsmiljø Oppsett
 
 ### Forutsetninger
 
 - Node.js 18+
 - pnpm / npm
-- SQlite
+- postgresql
 
 ### Installasjon
 
@@ -38,7 +40,10 @@ PAYLOAD_SECRET=**\*\***\*\*\***\*\*** DATABASE_URI=file:./.db pnpm run seed:all
 
 pnpm run seed:all
 
-# Eller seed individuelt
+# Eller seed individuelt hvis all ikke funker, ta med .env 
+DATABASE_URI=postgresql://neondb_owner:*********@**************.eu-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+PAYLOAD_SECRET=***************
+ADMIN_CODE=(kommer i innleverings pdfen)
 
 pnpm run seed:users
 pnpm run seed:reviews
